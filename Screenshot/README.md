@@ -37,6 +37,4 @@ Complete a month cost analysis of each Azure resource to give an estimate total 
 The app service includes the web app and the function app.
 
 ## Architecture Explanation
-The azure web app was already built out, I only had to change the environment variables within config.py and refactor the notification flow within app.py. Everything else was already configured. The costs are reasonable, outside of the PostgreSQL database, which is by far the most expensive part of the architecture. Creating a service bus namespace to handle the notifications is a good idea, but if it could all be saved to a less expensive database that would be the most straightforward way to lower costs. 
-
-Other than changing up the database, everthing else is available at a reasonable cost.
+When I migrated the application to Azure, I chose AppService migration. Azure App Service has a great free tier (F1) and several cheap tiers that can be used for development and testing purposes; however, those tiers have a very limited amount of available CPU and RAM. Furthermore, it can autoscale when the application executes a task like sending mail to 100 or 1000 attendees. Sometimes the application is broken, and the cost is expensive. The solution is to push the notification to the Services Bus and trigger the function app to send mail to attendees. Using PostgresDb in the cloud saves money and securing a database server. The architecture is more cost effective.
